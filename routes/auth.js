@@ -9,7 +9,20 @@ router.post('/register', async (req, res) => {
     await user.save();
     res.status(201).send({ message: 'Usuário criado com sucesso' });
   } catch (error) {
-    res.status(400).send(error);
+    if (error.code === 11000) {
+      res.status(400).send({ message: 'Email já cadastrado' });
+    } else {
+      res.status(400).send(error);
+    }
+  }
+});
+
+router.delete('/delete', authMiddleware, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.user._id);
+    res.send({ message: 'Conta excluída com sucesso' });
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
