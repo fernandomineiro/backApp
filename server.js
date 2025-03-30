@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions'); // Importe as rotas de transações
-
+const cors = require('cors');
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI, {
